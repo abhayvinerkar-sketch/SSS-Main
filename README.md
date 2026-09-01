@@ -11,22 +11,25 @@ npx expo start
 
 Then press `a` for Android, `i` for iOS, or scan the Expo QR code.
 
-## MVP
+## Current milestone
 
 - Expo + TypeScript foundation
 - Bottom navigation: Home, Study, Tests, Progress, Profile
-- Student dashboard with preparation and streak cards
-- Seven Maharashtra SSC subject entries
-- Demo study-plan data and task model
-- Daily, weekly and monthly test data models
-- Sample MCQ question model
-- Reusable theme and domain models
-- Demo content is explicitly marked as sample; official syllabus/content is not invented
+- Full SSC subject structure for Marathi, English, Hindi, Mathematics Part 1 & 2, Science & Technology Part 1 & 2, History, Political Science and Geography
+- Chapter-wise Maharashtra SSC curriculum structure
+- Chapter-level study-resource model for notes, important points, definitions, formulas, question bank and previous-year practice
+- Question-bank architecture with subject, chapter, type, difficulty, marks and tags
+- Daily, weekly and monthly test models
+- Demo MCQs mapped to real curriculum chapters
+- Study-plan task model
+- Demo content is clearly separated from future verified study material
 
 ## Architecture
 
-`src/models` contains domain interfaces, `src/data` contains mock/demo data, `src/theme` contains design tokens, `src/navigation` contains navigation, and `src/screens` contains UI screens.
+`src/models` contains domain interfaces, `src/data` contains curriculum and mock data, `src/theme` contains design tokens, `src/navigation` contains navigation, and `src/screens` contains UI screens.
+
+The curriculum structure is based on Maharashtra SSC / Balbharati subject and chapter references. Only chapter titles are represented in the app; textbook content should be added separately and reviewed for licensing/compliance before release.
 
 ## Next milestone
 
-Add nested Study/Test navigation, a persisted quiz attempt engine, local storage, chapter-level content, authenticated student profiles, and then connect Firebase or Supabase.
+Build the chapter reader, question-bank browser, persisted quiz attempts, local progress tracking, authenticated student profiles, and then connect Firebase for synced content, results, notifications and an admin workflow.
