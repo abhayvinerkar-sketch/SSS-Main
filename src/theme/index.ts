@@ -1,0 +1,1 @@
+export const theme={colors:{primary:'#4F46E5',secondary:'#06B6D4',background:'#F7F8FC',surface:'#FFFFFF',text:'#172033',muted:'#6B7280',border:'#E5E7EB',success:'#16A34A',warning:'#F59E0B',danger:'#DC2626'},radius:{sm:10,md:16,lg:24},spacing:{xs:6,sm:10,md:16,lg:24,xl:32}};
