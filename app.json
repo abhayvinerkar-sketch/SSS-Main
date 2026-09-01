@@ -1,1 +1,9 @@
-{"expo":{"name":"SSC Master","slug":"ssc-master","version":"1.0.0","orientation":"portrait","userInterfaceStyle":"light","splash":{"resizeMode":"contain"},"assetBundlePatterns":["**/*"]}}
+{
+  "expo": {
+    "name": "SSC Master",
+    "slug": "ssc-master",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light"
+  }
+}
