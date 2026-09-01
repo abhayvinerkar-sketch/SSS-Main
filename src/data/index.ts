@@ -1,7 +1,52 @@
-import {Question,Subject,StudyMaterial,StudyTask,Test,Student} from '../models';
+import {Question,Subject,StudyMaterial,StudyTask,Test,Student,Chapter} from '../models';
+
 export const student:Student={name:'Student',standard:'10th',board:'Maharashtra State Board',school:'Your School',targetPercentage:90,examDate:'2027-03-01'};
-export const subjects:Subject[]=[{id:'marathi',name:'Marathi',shortName:'MAR',icon:'✎',color:'#E11D48',chapters:['Demo Chapter 1','Demo Chapter 2']},{id:'english',name:'English',shortName:'ENG',icon:'Aa',color:'#2563EB',chapters:['Demo Chapter 1','Demo Chapter 2']},{id:'hindi',name:'Hindi',shortName:'HIN',icon:'अ',color:'#EA580C',chapters:['Demo Chapter 1','Demo Chapter 2']},{id:'maths',name:'Mathematics',shortName:'MAT',icon:'∑',color:'#7C3AED',chapters:['Demo Chapter 1','Demo Chapter 2']},{id:'science',name:'Science & Technology',shortName:'SCI',icon:'⚗',color:'#059669',chapters:['Demo Chapter 1','Demo Chapter 2']},{id:'history',name:'History & Political Science',shortName:'HIS',icon:'◈',color:'#B45309',chapters:['Demo Chapter 1','Demo Chapter 2']},{id:'geography',name:'Geography',shortName:'GEO',icon:'⌖',color:'#0891B2',chapters:['Demo Chapter 1','Demo Chapter 2']}];
-export const materials:StudyMaterial[]=subjects.flatMap(s=>['Notes','Important Points','Definitions','Question Bank','Previous Year'].map((type,i)=>({id:`${s.id}-${i}`,subjectId:s.id,title:`${type} — ${s.name}`,type:type as StudyMaterial['type'],description:'Demo/sample content. Official curriculum content will be added later.'})));
-export const studyTasks:StudyTask[]=[{id:'1',subjectId:'maths',chapter:'Demo Chapter 1',duration:45,status:'Completed'},{id:'2',subjectId:'science',chapter:'Demo Chapter 2',duration:40,status:'In Progress'},{id:'3',subjectId:'english',chapter:'Demo Chapter 1',duration:30,status:'Pending'},{id:'4',subjectId:'history',chapter:'Demo Chapter 2',duration:35,status:'Pending'}];
-export const questions:Question[]=[{id:'q1',text:'Which number is a prime number?',options:['21','29','35','49'],answer:1,explanation:'29 has exactly two factors: 1 and 29.'},{id:'q2',text:'What is the SI unit of force?',options:['Joule','Watt','Newton','Pascal'],answer:2,explanation:'Force is measured in newtons (N). Demo content.'},{id:'q3',text:'Which is the correct spelling?',options:['Enviroment','Environment','Envirnoment','Enviornment'],answer:1,explanation:'Environment is the correct spelling.'},{id:'q4',text:'The study of maps is called?',options:['Cartography','Biology','Geology','Astronomy'],answer:0,explanation:'Cartography is the science and practice of making maps.'}];
-export const tests:Test[]=[{id:'daily',title:'Daily Test',type:'Daily',subjects:['Mathematics','Science'],questions,duration:10,marks:4},{id:'weekly',title:'Weekly Test · Week 1',type:'Weekly',subjects:['Mathematics','Science & Technology','English'],questions,duration:30,marks:4},{id:'monthly',title:'Monthly Examination · Month 1',type:'Monthly',subjects:subjects.slice(0,5).map(s=>s.name),questions,duration:60,marks:4}];
+
+const makeChapters=(subjectId:string,titles:string[]):Chapter[]=>titles.map((title,i)=>({id:`${subjectId}-${String(i+1).padStart(2,'0')}`,number:String(i+1),title,description:`Study, revise and practise ${title}.`}));
+
+const marathi=makeChapters('marathi',['जय जय हे भारत देशा (गीत)','बोलतो मराठी...','आजी : कुटुंबाचं आगळ','उत्तमलक्षण (संतकाव्य)','वसंतहृदय चैत्र','बालसाहित्यिका : गिरिजा कीर (स्थूलवाचन)','वस्तू (कविता)','गवताचे पाते','वाट पाहताना','आश्वासक चित्र','आप्पांचे पत्र','मनक्या पेरेन लागा','गोष्ट अरुणिमाची','भरतवाक्य','कर्ते सुधारक कर्वे','काळे केस','खोद आणखी थोडेसे','वीरांगना','आकाशी झेप घे रे','सोनाली','निर्णय','तू झालास मूक समाजाचा नायक','सर्व विश्वचि व्हावे सुखी','व्युत्पत्ती कोश','उपयोजित लेखन']);
+const english=makeChapters('english',['1.1 A Teenager’s Prayer','1.2 An Encounter of a Special Kind','1.3 Basketful of Moonlight','1.4 Be SMART…!','1.5 His First Flight','2.1 You Start Dying Slowly…','2.2 The Boy Who Broke the Bank','2.3 The Twins','2.4 An Epitome of Courage','2.5 Book Review – Swami and Friends','2.6 World Heritage','3.1 If…','3.2 A Lesson in Life from a Beggar','3.3 Stopping by Woods on a Snowy Evening','3.4 Let Us March!','3.5 The Alchemy of Nature','4.1 The World is Mine','4.2 Bholi','4.3 O Captain! My Captain!','4.4 Unbeatable Super Mom – Mary Kom','4.5 Joan of Arc','Language Study']);
+const hindi=makeChapters('hindi',['भारत महिमा','लक्ष्मी','वाह रे! हमदर्द','मन (पूरक पठन)','गोवा : जैसा मैंने देखा','गिरिधर नागर','खुला आकाश (पूरक पठन)','गजल','रीढ़ की हड्डी','ठेस (पूरक पठन)','कृषक का गान','बरषहिं जलद','दो लघुकथाएँ (पूरक पठन)','श्रम साधना','छापा','ईमानदारी की प्रतिमूर्ति','हम इस धरती की संतति हैं (पूरक पठन)','महिला आश्रम','अपनी गंध नहीं बेचूँगा','जब तक जिंदा रहूँ, लिखता रहूँ','बूढ़ी काकी (पूरक पठन)','समता की ओर','भाषा अध्ययन']);
+const maths1=makeChapters('maths1',['Linear Equations in Two Variables','Quadratic Equations','Arithmetic Progression','Financial Planning','Probability','Statistics']);
+const maths2=makeChapters('maths2',['Similarity','Pythagoras Theorem','Circle','Geometric Constructions','Co-ordinate Geometry','Trigonometry','Mensuration']);
+const science1=makeChapters('science1',['Gravitation','Periodic Classification of Elements','Chemical Reactions and Equations','Effects of Electric Current','Heat','Refraction of Light','Lenses','Metallurgy','Carbon Compounds','Space Missions']);
+const science2=makeChapters('science2',['Heredity and Evolution','Life Processes in Living Organisms Part - 1','Life Processes in Living Organisms Part - 2','Environmental Management','Towards Green Energy','Animal Classification','Introduction to Microbiology','Cell Biology and Biotechnology','Social Health','Disaster Management']);
+const history=makeChapters('history',['Historiography : Development in the West','Historiography : Indian Tradition','Applied History','History of Indian Arts','Mass Media and History','Entertainment and History','Sports and History','Tourism and History','Heritage Management']);
+const political=makeChapters('political',['Working of the Constitution','The Electoral Process','Political Parties','Social and Political Movements','Challenges Faced by Indian Democracy']);
+const geography=makeChapters('geography',['Field Visit','Location and Extent','Physiography and Drainage','Climate','Natural Vegetation and Wildlife','Population','Human Settlements','Economy and Occupations','Tourism, Transport and Communication']);
+
+export const subjects:Subject[]=[
+{id:'marathi',name:'Marathi',shortName:'MAR',icon:'अ',color:'#E11D48',chapters:marathi},
+{id:'english',name:'English',shortName:'ENG',icon:'Aa',color:'#2563EB',chapters:english},
+{id:'hindi',name:'Hindi',shortName:'HIN',icon:'अ',color:'#EA580C',chapters:hindi},
+{id:'maths1',name:'Mathematics Part 1',shortName:'MAT 1',icon:'∑',color:'#7C3AED',chapters:maths1},
+{id:'maths2',name:'Mathematics Part 2',shortName:'MAT 2',icon:'△',color:'#6D28D9',chapters:maths2},
+{id:'science1',name:'Science & Technology Part 1',shortName:'SCI 1',icon:'⚗',color:'#059669',chapters:science1},
+{id:'science2',name:'Science & Technology Part 2',shortName:'SCI 2',icon:'🧬',color:'#047857',chapters:science2},
+{id:'history',name:'History',shortName:'HIS',icon:'◈',color:'#B45309',chapters:history},
+{id:'political',name:'Political Science',shortName:'POL',icon:'⚖',color:'#92400E',chapters:political},
+{id:'geography',name:'Geography',shortName:'GEO',icon:'⌖',color:'#0891B2',chapters:geography}
+];
+
+const resourceTypes=['Notes','Important Points','Definitions','Formulas','Question Bank','Previous Year'] as const;
+export const materials:StudyMaterial[]=subjects.flatMap(subject=>subject.chapters.flatMap(chapter=>resourceTypes.map(type=>({id:`${chapter.id}-${type.toLowerCase().replace(/ /g,'-')}`,subjectId:subject.id,chapterId:chapter.id,title:`${type} — ${chapter.title}`,type,description:`${type} for ${chapter.title}. Content will be populated and reviewed before release.`,available:type==='Notes'||type==='Important Points'}))));
+
+export const studyTasks:StudyTask[]=[
+{id:'1',subjectId:'maths1',chapter:'Linear Equations in Two Variables',duration:45,status:'Completed'},
+{id:'2',subjectId:'science1',chapter:'Effects of Electric Current',duration:40,status:'In Progress'},
+{id:'3',subjectId:'english',chapter:'2.2 The Boy Who Broke the Bank',duration:30,status:'Pending'},
+{id:'4',subjectId:'history',chapter:'Tourism and History',duration:35,status:'Pending'}
+];
+
+export const questions:Question[]=[
+{id:'q1',subjectId:'maths1',chapterId:'maths1-01',text:'If 2x + 3y = 12 and x = 3, what is y?',options:['1','2','3','4'],answer:1,explanation:'Substitute x = 3: 6 + 3y = 12, so y = 2.',type:'MCQ',difficulty:'Easy',marks:1,tags:['linear equations','substitution']},
+{id:'q2',subjectId:'science1',chapterId:'science1-01',text:'The SI unit of force is:',options:['Joule','Watt','Newton','Pascal'],answer:2,explanation:'Force is measured in newtons (N).',type:'MCQ',difficulty:'Easy',marks:1,tags:['force','SI units']},
+{id:'q3',subjectId:'english',chapterId:'english-22',text:'Which skill focuses on understanding the meaning of a written passage?',options:['Reading comprehension','Numerical reasoning','Map reading','Graph plotting'],answer:0,explanation:'Reading comprehension is the ability to understand and interpret written text.',type:'MCQ',difficulty:'Easy',marks:1,tags:['language study','comprehension']},
+{id:'q4',subjectId:'geography',chapterId:'geography-09',text:'Which of these is a mode of transport?',options:['Tourism','Railway','Population','Climate'],answer:1,explanation:'Railway is a transport system.',type:'MCQ',difficulty:'Easy',marks:1,tags:['transport','communication']}
+];
+
+export const tests:Test[]=[
+{id:'daily',title:'Daily Test',type:'Daily',subjects:['Mathematics Part 1','Science & Technology Part 1'],questions, duration:10,marks:4},
+{id:'weekly',title:'Weekly Test · Week 1',type:'Weekly',subjects:['Mathematics Part 1','Science & Technology Part 1','English'],questions,duration:30,marks:4},
+{id:'monthly',title:'Monthly Examination · Month 1',type:'Monthly',subjects:subjects.slice(0,7).map(s=>s.name),questions,duration:60,marks:4}
+];
