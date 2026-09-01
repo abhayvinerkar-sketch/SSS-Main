@@ -4,6 +4,9 @@
     "slug": "ssc-master",
     "version": "1.0.0",
     "orientation": "portrait",
-    "userInterfaceStyle": "light"
+    "userInterfaceStyle": "light",
+    "android": {
+      "package": "com.sscmaster.app"
+    }
   }
 }
