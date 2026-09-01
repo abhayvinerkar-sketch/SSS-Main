@@ -16,37 +16,17 @@ const political=makeChapters('political',['Working of the Constitution','The Ele
 const geography=makeChapters('geography',['Field Visit','Location and Extent','Physiography and Drainage','Climate','Natural Vegetation and Wildlife','Population','Human Settlements','Economy and Occupations','Tourism, Transport and Communication']);
 
 export const subjects:Subject[]=[
-{id:'marathi',name:'Marathi',shortName:'MAR',icon:'अ',color:'#E11D48',chapters:marathi},
-{id:'english',name:'English',shortName:'ENG',icon:'Aa',color:'#2563EB',chapters:english},
-{id:'hindi',name:'Hindi',shortName:'HIN',icon:'अ',color:'#EA580C',chapters:hindi},
-{id:'maths1',name:'Mathematics Part 1',shortName:'MAT 1',icon:'∑',color:'#7C3AED',chapters:maths1},
-{id:'maths2',name:'Mathematics Part 2',shortName:'MAT 2',icon:'△',color:'#6D28D9',chapters:maths2},
-{id:'science1',name:'Science & Technology Part 1',shortName:'SCI 1',icon:'⚗',color:'#059669',chapters:science1},
-{id:'science2',name:'Science & Technology Part 2',shortName:'SCI 2',icon:'🧬',color:'#047857',chapters:science2},
-{id:'history',name:'History',shortName:'HIS',icon:'◈',color:'#B45309',chapters:history},
-{id:'political',name:'Political Science',shortName:'POL',icon:'⚖',color:'#92400E',chapters:political},
-{id:'geography',name:'Geography',shortName:'GEO',icon:'⌖',color:'#0891B2',chapters:geography}
-];
+{id:'marathi',name:'Marathi',shortName:'MAR',icon:'अ',color:'#E11D48',chapters:marathi},{id:'english',name:'English',shortName:'ENG',icon:'Aa',color:'#2563EB',chapters:english},{id:'hindi',name:'Hindi',shortName:'HIN',icon:'अ',color:'#EA580C',chapters:hindi},{id:'maths1',name:'Mathematics Part 1',shortName:'MAT 1',icon:'∑',color:'#7C3AED',chapters:maths1},{id:'maths2',name:'Mathematics Part 2',shortName:'MAT 2',icon:'△',color:'#6D28D9',chapters:maths2},{id:'science1',name:'Science & Technology Part 1',shortName:'SCI 1',icon:'⚗',color:'#059669',chapters:science1},{id:'science2',name:'Science & Technology Part 2',shortName:'SCI 2',icon:'🧬',color:'#047857',chapters:science2},{id:'history',name:'History',shortName:'HIS',icon:'◈',color:'#B45309',chapters:history},{id:'political',name:'Political Science',shortName:'POL',icon:'⚖',color:'#92400E',chapters:political},{id:'geography',name:'Geography',shortName:'GEO',icon:'⌖',color:'#0891B2',chapters:geography}];
 
 const resourceTypes=['Notes','Important Points','Definitions','Formulas','Question Bank','Previous Year'] as const;
-export const materials:StudyMaterial[]=subjects.flatMap(subject=>subject.chapters.flatMap(chapter=>resourceTypes.map(type=>({id:`${chapter.id}-${type.toLowerCase().replace(/ /g,'-')}`,subjectId:subject.id,chapterId:chapter.id,title:`${type} — ${chapter.title}`,type,description:`${type} for ${chapter.title}. Content will be populated and reviewed before release.`,available:type==='Notes'||type==='Important Points'}))));
+export const materials:StudyMaterial[]=subjects.flatMap(subject=>subject.chapters.flatMap(chapter=>resourceTypes.map(type=>({id:`${chapter.id}-${type.toLowerCase().replace(/ /g,'-')}`,subjectId:subject.id,chapterId:chapter.id,title:`${type} — ${chapter.title}`,type,description:`${type} for ${chapter.title}. Content will be populated and reviewed before release.`,available:type==='Notes'||type==='Important Points'||type==='Question Bank'}))));
 
-export const studyTasks:StudyTask[]=[
-{id:'1',subjectId:'maths1',chapter:'Linear Equations in Two Variables',duration:45,status:'Completed'},
-{id:'2',subjectId:'science1',chapter:'Effects of Electric Current',duration:40,status:'In Progress'},
-{id:'3',subjectId:'english',chapter:'2.2 The Boy Who Broke the Bank',duration:30,status:'Pending'},
-{id:'4',subjectId:'history',chapter:'Tourism and History',duration:35,status:'Pending'}
-];
+export const studyTasks:StudyTask[]=[{id:'1',subjectId:'maths1',chapter:'Linear Equations in Two Variables',duration:45,status:'Completed'},{id:'2',subjectId:'science1',chapter:'Effects of Electric Current',duration:40,status:'In Progress'},{id:'3',subjectId:'english',chapter:'2.2 The Boy Who Broke the Bank',duration:30,status:'Pending'},{id:'4',subjectId:'history',chapter:'Tourism and History',duration:35,status:'Pending'}];
 
 export const questions:Question[]=[
 {id:'q1',subjectId:'maths1',chapterId:'maths1-01',text:'If 2x + 3y = 12 and x = 3, what is y?',options:['1','2','3','4'],answer:1,explanation:'Substitute x = 3: 6 + 3y = 12, so y = 2.',type:'MCQ',difficulty:'Easy',marks:1,tags:['linear equations','substitution']},
 {id:'q2',subjectId:'science1',chapterId:'science1-01',text:'The SI unit of force is:',options:['Joule','Watt','Newton','Pascal'],answer:2,explanation:'Force is measured in newtons (N).',type:'MCQ',difficulty:'Easy',marks:1,tags:['force','SI units']},
-{id:'q3',subjectId:'english',chapterId:'english-22',text:'Which skill focuses on understanding the meaning of a written passage?',options:['Reading comprehension','Numerical reasoning','Map reading','Graph plotting'],answer:0,explanation:'Reading comprehension is the ability to understand and interpret written text.',type:'MCQ',difficulty:'Easy',marks:1,tags:['language study','comprehension']},
-{id:'q4',subjectId:'geography',chapterId:'geography-09',text:'Which of these is a mode of transport?',options:['Tourism','Railway','Population','Climate'],answer:1,explanation:'Railway is a transport system.',type:'MCQ',difficulty:'Easy',marks:1,tags:['transport','communication']}
-];
+{id:'q3',subjectId:'english',chapterId:'english-07',text:'Which skill focuses on understanding the meaning of a written passage?',options:['Reading comprehension','Numerical reasoning','Map reading','Graph plotting'],answer:0,explanation:'Reading comprehension is the ability to understand and interpret written text.',type:'MCQ',difficulty:'Easy',marks:1,tags:['language study','comprehension']},
+{id:'q4',subjectId:'geography',chapterId:'geography-09',text:'Which of these is a mode of transport?',options:['Tourism','Railway','Population','Climate'],answer:1,explanation:'Railway is a transport system.',type:'MCQ',difficulty:'Easy',marks:1,tags:['transport','communication']}];
 
-export const tests:Test[]=[
-{id:'daily',title:'Daily Test',type:'Daily',subjects:['Mathematics Part 1','Science & Technology Part 1'],questions, duration:10,marks:4},
-{id:'weekly',title:'Weekly Test · Week 1',type:'Weekly',subjects:['Mathematics Part 1','Science & Technology Part 1','English'],questions,duration:30,marks:4},
-{id:'monthly',title:'Monthly Examination · Month 1',type:'Monthly',subjects:subjects.slice(0,7).map(s=>s.name),questions,duration:60,marks:4}
-];
+export const tests:Test[]=[{id:'daily',title:'Daily Test',type:'Daily',subjects:['Mathematics Part 1','Science & Technology Part 1'],questions,duration:10,marks:4},{id:'weekly',title:'Weekly Test · Week 1',type:'Weekly',subjects:['Mathematics Part 1','Science & Technology Part 1','English'],questions,duration:30,marks:4},{id:'monthly',title:'Monthly Examination · Month 1',type:'Monthly',subjects:subjects.slice(0,7).map(s=>s.name),questions,duration:60,marks:4}];
