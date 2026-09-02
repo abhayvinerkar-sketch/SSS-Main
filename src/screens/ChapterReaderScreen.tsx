@@ -3,6 +3,7 @@ import{ScrollView,View,Text,StyleSheet,TouchableOpacity}from'react-native';
 import{subjects}from'../data';
 import{getTopics}from'../data/topics';
 import{getTopicConcepts,getChapterMaterial}from'../data/studyMaterial';
+import{science1Concepts}from'../data/science1Material';
 import{useTheme}from'../theme/ThemeProvider';
 
 type MaterialTab='Concepts'|'Key Points'|'Definitions'|'Formulas'|'Question Bank'|'Previous Year';
@@ -16,7 +17,7 @@ export function ChapterReaderScreen({route,navigation}:any){
  const[tab,setTab]=useState<MaterialTab>('Concepts');
  if(!subject||!chapter)return null;
  const topics=getTopics(subject.id,chapter.id,chapter.title);
- const concepts=getTopicConcepts(subject.id,chapter.id,chapter.title,topics.map(x=>x.title));
+ const concepts=subjectId==='science1'?(science1Concepts[chapterId]||getTopicConcepts(subject.id,chapter.id,chapter.title,topics.map(x=>x.title))):getTopicConcepts(subject.id,chapter.id,chapter.title,topics.map(x=>x.title));
  const material=getChapterMaterial(subject.id,chapter.id,chapter.title,topics.map(x=>x.title));
  const definitions=concepts.map(x=>`${x.title}: ${x.concept}`);
  const formulas=concepts.filter(x=>x.remember&&/[=²√]|formula|theorem|ratio|law/i.test(x.remember||'')).map(x=>`${x.title} — ${x.remember}`);
