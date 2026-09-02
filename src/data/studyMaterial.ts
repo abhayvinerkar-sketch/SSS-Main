@@ -1,0 +1,34 @@
+export type MaterialSection={heading:string;body:string[]};
+export type TopicConcept={title:string;concept:string;keyPoints:string[];example?:string;remember?:string};
+
+const chapterConcepts:Record<string,TopicConcept[]>={
+'maths1-01':[
+{title:'Graph of a Linear Equation',concept:'A linear equation in two variables describes a relationship between two unknown quantities. When its solutions are plotted on a coordinate plane, they form a straight line.',keyPoints:['Choose values for one variable and calculate the other.','Plot the ordered pairs carefully on the coordinate plane.','Check that the plotted points lie on one straight line.'],remember:'Linear equation → straight-line graph.'},
+{title:'Solving Linear Equations',concept:'A pair of linear equations can be solved by finding the values of the variables that satisfy both equations at the same time.',keyPoints:['Substitution replaces one variable using an expression from the other equation.','Elimination removes one variable by combining equations.','Always substitute the final values back to verify the answer.'],example:'For 2x + 3y = 12 and x = 3, substitution gives y = 2.'},
+{title:'Pair of Equations',concept:'Two linear equations together form a pair. Their graphs may intersect at one point, be parallel, or represent the same line.',keyPoints:['One intersection point indicates one common solution.','Parallel lines indicate no common solution.','Coincident lines have infinitely many common solutions.']},
+{title:'Word Problems',concept:'Word problems convert a real situation into mathematical relationships. The important first step is to define the unknown quantities clearly.',keyPoints:['Identify what is unknown.','Translate statements into equations.','Solve and check whether the answer makes sense in the original situation.']}
+],
+'maths1-02':[
+{title:'Standard Form',concept:'A quadratic equation has degree two and can be arranged in the standard form ax² + bx + c = 0, where a is not zero.',keyPoints:['Bring all terms to one side before solving.','Identify a, b and c correctly.','Choose a suitable solution method.']},
+{title:'Factorisation',concept:'Factorisation rewrites a quadratic expression as a product of simpler expressions. If the product is zero, each factor can be considered separately.',keyPoints:['Look for factor pairs of the constant term.','Check the middle term after factorising.','Verify the roots in the original equation.']},
+{title:'Quadratic Formula',concept:'The quadratic formula gives the roots directly when factorisation is difficult or inconvenient.',keyPoints:['Use x = (−b ± √(b² − 4ac)) / 2a.','Substitute a, b and c with their signs.','Simplify the discriminant before completing the calculation.']},
+{title:'Nature of Roots',concept:'The discriminant D = b² − 4ac indicates the nature of the roots of a quadratic equation.',keyPoints:['D > 0 gives two distinct real roots.','D = 0 gives equal real roots.','D < 0 does not give real roots.']}
+],
+'science1-01':[
+{title:'Universal Law of Gravitation',concept:'Every mass attracts every other mass. The gravitational force depends on the masses involved and decreases as the distance between their centres increases.',keyPoints:['Force acts along the line joining the centres of the two masses.','Greater masses produce greater gravitational attraction.','Greater separation reduces the force.'],remember:'F = Gm₁m₂/r².'},
+{title:'Acceleration Due to Gravity',concept:'Objects near Earth accelerate downward because of Earth’s gravitational attraction. This acceleration is represented by g.',keyPoints:['Near Earth, g is approximately 9.8 m/s².','Mass remains the same when location changes, but weight can change.','Use consistent SI units in numerical problems.'],remember:'Weight W = mg.'},
+{title:'Free Fall',concept:'An object is in free fall when gravity is the main force acting on it. Its motion can be analysed using equations of motion with gravitational acceleration.',keyPoints:['Ignore air resistance when the problem permits it.','Take the chosen positive direction consistently.','Write known values before selecting an equation.']},
+{title:'Numericals',concept:'Board-style gravitation numericals reward clear substitution, correct units and a final statement.',keyPoints:['Write the formula first.','Substitute values with units.','Calculate carefully and state the final unit.']}
+],
+'science1-04':[
+{title:'Electric Current',concept:'Electric current describes the rate at which electric charge passes through a conductor.',keyPoints:['Current is measured in amperes.','A complete conducting path is required for current to flow.','Conventional current direction is taken from higher to lower potential.']},
+{title:'Potential Difference',concept:'Potential difference represents the work done per unit charge in moving charge between two points.',keyPoints:['It is measured in volts.','A source such as a cell can maintain potential difference.','Use V = IR when the quantities satisfy the required conditions.']},
+{title:'Ohm’s Law',concept:'For a conductor under suitable constant physical conditions, current is proportional to potential difference across it.',keyPoints:['V = IR.','The slope of a V–I graph can represent resistance depending on the axes used.','Resistance is measured in ohms.'],remember:'V = IR.'},
+{title:'Electric Power',concept:'Electric power tells us how quickly electrical energy is transferred or used.',keyPoints:['P = VI.','Other useful forms include P = I²R when applicable.','Power is measured in watts.'],remember:'P = VI = I²R.'}
+]
+};
+
+const generic=(title:string):TopicConcept=>({title,concept:`${title} is a focused learning concept within this Maharashtra SSC chapter. Build understanding first, then convert it into short revision points and board-style practice.`,keyPoints:['Understand the idea in your own words.','Identify important terms, relationships or steps.','Practise one representative question without looking at the solution.'],remember:'Learn → Recall → Practise → Review.'});
+
+export function getTopicConcepts(subjectId:string,chapterId:string,chapterTitle:string,topicNames:string[]):TopicConcept[]{return topicNames.map(title=>chapterConcepts[chapterId]?.find(x=>x.title.toLowerCase()===title.toLowerCase())||generic(title));}
+export function getChapterMaterial(subjectId:string,chapterId:string,chapterTitle:string,topicNames:string[]):MaterialSection[]{const concepts=getTopicConcepts(subjectId,chapterId,chapterTitle,topicNames);return [{heading:'Concepts',body:concepts.map(x=>x.concept)},{heading:'Key Points',body:concepts.flatMap(x=>x.keyPoints)},{heading:'Remember',body:concepts.map(x=>x.remember||'Revise this concept in your own words.')},{heading:'Worked Example',body:concepts.filter(x=>x.example).map(x=>x.example as string)}].filter(x=>x.body.length>0)}
