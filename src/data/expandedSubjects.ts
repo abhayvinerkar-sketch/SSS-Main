@@ -3,56 +3,29 @@ import {subjects} from './index';
 import {getTopics,Topic} from './topics';
 import {TopicConcept,MaterialSection} from './studyMaterial';
 
-type Profile={focus:string;exam:string;example:string};
+type Profile={focus:string;exam:string;example:string;definition:string};
 const profiles:Record<string,Profile>={
- history:{focus:'historical thinking, evidence, chronology, cause and effect',exam:'Define the idea, connect it with an example, and explain its historical significance.',example:'Build a short timeline and identify one cause, one development and one consequence.'},
- political:{focus:'constitutional ideas, institutions, democracy, rights and civic participation',exam:'Use correct political terms and support answers with a relevant constitutional or democratic example.',example:'Explain the institution or process in simple steps, then connect it to citizens.'},
- geography:{focus:'location, physical features, climate, population, resources and human activities',exam:'Use maps, data, comparisons and reasons wherever the question demands them.',example:'Identify the feature, state its location or pattern, then explain why it occurs.'},
- english:{focus:'reading comprehension, vocabulary, grammar, writing and appreciation',exam:'Answer in complete sentences, use precise vocabulary and support literary answers with the text idea in your own words.',example:'Read a passage, identify its central idea, then write a two-sentence response.'},
- marathi:{focus:'आकलन, आशय, भाषा-अभ्यास, व्याकरण आणि उपयोजित लेखन',exam:'मुद्देसूद उत्तर, योग्य भाषा, आशयाची मांडणी आणि आवश्यक तेथे उदाहरण यांना प्राधान्य द्या.',example:'धड्याचा आशय स्वतःच्या शब्दांत मांडून दोन महत्त्वाचे मुद्दे लिहा.'},
- hindi:{focus:'पठन, आशय, भाषा-अध्ययन, व्याकरण और लेखन कौशल',exam:'उत्तर स्पष्ट, क्रमबद्ध और शुद्ध भाषा में लिखें; पाठ का आशय अपने शब्दों में समझाएँ.',example:'पाठ का मुख्य भाव लिखें और उससे जुड़े दो महत्त्वपूर्ण बिंदु बताइए.'}
+ history:{focus:'historical thinking, evidence, chronology, cause and effect',exam:'Define the idea, place it in context, explain its significance and support it with a relevant example.',example:'Build a short cause → development → consequence chain and identify the historical evidence behind each step.',definition:'A historical concept should be explained by its meaning, context, features and significance.'},
+ political:{focus:'constitutional ideas, institutions, democracy, rights and civic participation',exam:'Use precise political terms, explain the process in steps and connect the answer with a constitutional or democratic example.',example:'Name the institution or process, list its major steps and explain why it matters to citizens.',definition:'A political concept explains an institution, process, right, principle or democratic relationship.'},
+ geography:{focus:'location, physical features, climate, population, resources and human activities',exam:'Use maps, data, comparisons, reasons and examples wherever the question demands them.',example:'Identify the geographical feature, state its location or pattern, then explain the physical or human reason behind it.',definition:'A geographical concept links location, distribution, characteristics, causes and human-environment relationships.'},
+ english:{focus:'reading comprehension, vocabulary, grammar, writing and appreciation',exam:'Answer in complete sentences, use precise vocabulary and support literary answers with the central idea in your own words.',example:'Identify the central idea, select supporting details and write a concise response using correct grammar.',definition:'A literary or language concept is understood through meaning, evidence, language features and effective expression.'},
+ marathi:{focus:'आकलन, आशय, भाषा-अभ्यास, व्याकरण आणि उपयोजित लेखन',exam:'मुद्देसूद उत्तर, योग्य भाषा, आशयाची मांडणी आणि आवश्यक तेथे उदाहरण यांना प्राधान्य द्या.',example:'धड्याचा आशय स्वतःच्या शब्दांत मांडून दोन महत्त्वाचे मुद्दे लिहा आणि योग्य भाषेत निष्कर्ष द्या.',definition:'अभ्यासातील संकल्पना अर्थ, आशय, भाषिक वैशिष्ट्ये आणि उपयोग यांच्या आधारे समजून घ्या.'},
+ hindi:{focus:'पठन, आशय, भाषा-अध्ययन, व्याकरण और लेखन कौशल',exam:'उत्तर स्पष्ट, क्रमबद्ध और शुद्ध भाषा में लिखें; पाठ का आशय अपने शब्दों में समझाएँ.',example:'पाठ का मुख्य भाव पहचानें, दो सहायक बिंदु लिखें और उत्तर को स्पष्ट क्रम में प्रस्तुत करें.',definition:'किसी भाषा-साहित्य की संकल्पना को अर्थ, भाव, भाषा-विशेषता और प्रयोग से समझा जाता है.'}
 };
+function profile(subjectId:string):Profile{if(subjectId.includes('history'))return profiles.history;if(subjectId.includes('political'))return profiles.political;if(subjectId.includes('geography'))return profiles.geography;if(subjectId==='english')return profiles.english;if(subjectId==='marathi')return profiles.marathi;return profiles.hindi;}
 
-function profile(subjectId:string):Profile{
- if(subjectId.includes('history'))return profiles.history;
- if(subjectId.includes('political'))return profiles.political;
- if(subjectId.includes('geography'))return profiles.geography;
- if(subjectId==='english')return profiles.english;
- if(subjectId==='marathi')return profiles.marathi;
- return profiles.hindi;
-}
+export function getExpandedConcepts(subjectId:string,chapterId:string,chapterTitle:string,topics:Topic[]):TopicConcept[]{const p=profile(subjectId);return topics.map((t,i)=>({title:t.title,concept:`${t.title} is studied within ${chapterTitle}. Build understanding by defining the idea, identifying its main features, connecting it to the chapter theme and applying it in an exam response. For this subject, focus on ${p.focus}.`,keyPoints:[`Define ${t.title} and identify its role in ${chapterTitle}.`,`Connect the topic with the chapter's main theme and related ideas.`,`Use keywords, examples, comparisons, chronology or cause-and-effect links as appropriate.`,`Practise explaining the idea without copying textbook sentences.`,`Finish revision by answering one question from memory.`],example:p.example,remember:i===3?p.exam:`${t.title} → understand → connect → apply → revise.`}));}
+export function getExpandedMaterial(subjectId:string,chapterId:string,chapterTitle:string,topics:Topic[]):MaterialSection[]{const concepts=getExpandedConcepts(subjectId,chapterId,chapterTitle,topics);const p=profile(subjectId);return[{heading:'Key Points',body:concepts.flatMap(x=>x.keyPoints)},{heading:'Definitions',body:concepts.map(x=>`${x.title}: ${p.definition}`)},{heading:'Exam Strategy',body:concepts.map(x=>x.remember||'Revise in your own words.')}];}
 
-export function getExpandedConcepts(subjectId:string,chapterId:string,chapterTitle:string,topics:Topic[]):TopicConcept[]{
- const p=profile(subjectId);
- return topics.map((t,i)=>({
-  title:t.title,
-  concept:`${t.title} is a focused part of ${chapterTitle}. Study it through ${p.focus}. The goal is to understand the idea, connect it with the chapter and then apply it in an exam-style response.`,
-  keyPoints:[`Understand the meaning and role of ${t.title}.`,`Connect ${t.title} with the main theme of ${chapterTitle}.`,`Use keywords, examples and cause-effect or comparison links where relevant.`,`Revise the topic without copying textbook sentences.`],
-  example:p.example,
-  remember:i===3?p.exam:`${t.title} → understand → connect → practise → revise.`
- }));
-}
-
-export function getExpandedMaterial(subjectId:string,chapterId:string,chapterTitle:string,topics:Topic[]):MaterialSection[]{
- const concepts=getExpandedConcepts(subjectId,chapterId,chapterTitle,topics);
- return [
-  {heading:'Key Points',body:concepts.flatMap(x=>x.keyPoints)},
-  {heading:'Exam Strategy',body:concepts.map(x=>x.remember||'Revise in your own words.')}
- ];
-}
-
-export function getExpandedQuestions(subjectId:string,chapterId:string,chapterTitle:string,topics:Topic[]):Question[]{
- const p=profile(subjectId);
- return topics.map((t,i)=>({
-  id:`expanded-${chapterId}-${i+1}`,
-  subjectId,chapterId,text:`Which approach is most useful while studying “${t.title}” in ${chapterTitle}?`,
-  options:[`Understand the idea and connect it with the chapter`,`Memorise random sentences without context`,`Skip examples and practice`,`Study it without knowing the topic meaning`],
-  answer:0,
-  explanation:`For ${t.title}, first understand the concept, connect it to ${chapterTitle}, then practise an exam-style response. Focus on ${p.focus}.`,
-  type:'MCQ',difficulty:'Easy',marks:1,tags:[t.title]
- }));
-}
-
-export function getAllExpandedQuestions():Question[]{
- return subjects.filter(s=>['history','political','geography','english','marathi','hindi'].includes(s.id)).flatMap(s=>s.chapters.flatMap(c=>getExpandedQuestions(s.id,c.id,c.title,getTopics(s.id,c.id,c.title))));
-}
+function makeQuestions(subjectId:string,chapterId:string,chapterTitle:string,t:Topic):Question[]{const p=profile(subjectId);const tag=t.title;return[
+{id:`expanded-${chapterId}-${tag}-mcq`,subjectId,chapterId,text:`Which is the best first step when studying “${tag}” in ${chapterTitle}?`,options:['Understand its meaning and connection to the chapter','Memorise unrelated sentences','Skip the concept and attempt random questions','Study only the chapter title'],answer:0,explanation:`Start with meaning and context. For ${tag}, understanding the idea before practice makes later recall and application stronger.`,type:'MCQ',difficulty:'Easy',marks:1,tags:[tag,'Revision']},
+{id:`expanded-${chapterId}-${tag}-veryshort`,subjectId,chapterId,text:`Write one important point about “${tag}” in ${chapterTitle}.`,options:[],answer:0,explanation:`A strong very-short answer should state one accurate, relevant point about ${tag} and use the correct subject vocabulary.`,type:'Very Short',difficulty:'Easy',marks:1,tags:[tag,'Revision']},
+{id:`expanded-${chapterId}-${tag}-short`,subjectId,chapterId,text:`Explain “${tag}” briefly and connect it with ${chapterTitle}.`,options:[],answer:0,explanation:`A good short answer should define ${tag}, mention its main feature or role and then link it to the chapter. Use concise, original wording.`,type:'Short Answer',difficulty:'Medium',marks:2,tags:[tag,'Board Practice']},
+{id:`expanded-${chapterId}-${tag}-long`,subjectId,chapterId,text:`Explain “${tag}” in detail. Include its meaning, important features, a relevant example and its significance in ${chapterTitle}.`,options:[],answer:0,explanation:`For a long answer, organise the response with a clear introduction, 3–4 relevant points, an example or evidence and a concluding significance statement. Focus on ${p.focus}.`,type:'Long Answer',difficulty:'Hard',marks:4,tags:[tag,'Board Practice']},
+{id:`expanded-${chapterId}-${tag}-apply`,subjectId,chapterId,text:`How would you apply your understanding of “${tag}” to an exam question?`,options:[],answer:0,explanation:`First identify exactly what the question asks, recall the definition and key points of ${tag}, select relevant evidence or examples, and write the answer in the required format.`,type:'Short Answer',difficulty:'Medium',marks:2,tags:[tag,'Application']},
+{id:`expanded-${chapterId}-${tag}-compare`,subjectId,chapterId,text:`Give one useful comparison or relationship involving “${tag}”.`,options:[],answer:0,explanation:`Comparison and relationship questions are strongest when both sides or linked ideas are named clearly and the basis of comparison is explicit.`,type:'Short Answer',difficulty:'Medium',marks:2,tags:[tag,'Revision']},
+{id:`expanded-${chapterId}-${tag}-board`,subjectId,chapterId,text:`Board Practice: Why is understanding “${tag}” important for ${chapterTitle}?`,options:[],answer:0,explanation:`A board-style response should explain the topic's role, connect it with the chapter and include at least one accurate supporting point or example.`,type:'Long Answer',difficulty:'Hard',marks:4,tags:[tag,'Board Practice']},
+{id:`expanded-${chapterId}-${tag}-check`,subjectId,chapterId,text:`Revision Check: State the key idea you would remember about “${tag}”.`,options:[],answer:0,explanation:`Your answer should contain the core meaning or most important relationship of ${tag}. If you cannot state it without notes, revise the concept once more.`,type:'Very Short',difficulty:'Easy',marks:1,tags:[tag,'Revision']}
+];}
+export function getExpandedQuestions(subjectId:string,chapterId:string,chapterTitle:string,topics:Topic[]):Question[]{return topics.flatMap(t=>makeQuestions(subjectId,chapterId,chapterTitle,t));}
+export function getAllExpandedQuestions():Question[]{return subjects.filter(s=>['history','political','geography','english','marathi','hindi'].includes(s.id)).flatMap(s=>s.chapters.flatMap(c=>getExpandedQuestions(s.id,c.id,c.title,getTopics(s.id,c.id,c.title))));}
