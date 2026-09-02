@@ -1,0 +1,2 @@
+export type TutorMessage={role:'user'|'assistant';content:string};
+export async function askTutor(input:{subject:string;chapter:string;topic:string;question:string;history:TutorMessage[]}):Promise<string>{const url=process.env.EXPO_PUBLIC_AI_API_URL;if(!url)return'';try{const response=await fetch(`${url.replace(/\/$/,'')}/api/tutor`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(input)});if(!response.ok)return'';const data=await response.json();return typeof data.answer==='string'?data.answer:''}catch{return''}}
