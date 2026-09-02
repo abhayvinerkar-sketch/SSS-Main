@@ -18,7 +18,7 @@ export function ChapterReaderScreen({route,navigation}:any){
  if(!subject||!chapter)return null;
  const topics=getTopics(subject.id,chapter.id,chapter.title);
  const concepts=subjectId==='science1'?(science1Concepts[chapterId]||getTopicConcepts(subject.id,chapter.id,chapter.title,topics.map(x=>x.title))):getTopicConcepts(subject.id,chapter.id,chapter.title,topics.map(x=>x.title));
- const material=getChapterMaterial(subject.id,chapter.id,chapter.title,topics.map(x=>x.title));
+ const material=subjectId==='science1'?[{heading:'Key Points',body:concepts.flatMap(x=>x.keyPoints)}]:getChapterMaterial(subject.id,chapter.id,chapter.title,topics.map(x=>x.title));
  const definitions=concepts.map(x=>`${x.title}: ${x.concept}`);
  const formulas=concepts.filter(x=>x.remember&&/[=²√]|formula|theorem|ratio|law/i.test(x.remember||'')).map(x=>`${x.title} — ${x.remember}`);
  const render=()=>{
