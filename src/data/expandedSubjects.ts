@@ -11,21 +11,27 @@ import {hindiContent} from './hindiContent';
 
 const content:Record<string,Record<string,TopicConcept[]>>={history:historyContent,political:politicalContent,geography:geographyContent,english:englishContent,marathi:marathiContent,hindi:hindiContent};
 
-function getChapterContent(subjectId:string,chapterId:string,topics:Topic[]):TopicConcept[]{
+function getChapterContent(subjectId:string,chapterId:string,chapterTitle:string,topics:Topic[]):TopicConcept[]{
  const exact=content[subjectId]?.[chapterId];
  if(exact?.length)return exact;
+ if(subjectId==='marathi'){
+  return topics.map(t=>({title:t.title,concept:`${t.title} या घटकाचा अर्थ, आशय आणि धड्याशी असलेला संबंध समजून घ्या.`,keyPoints:[`${t.title} या घटकाचा मुख्य आशय ओळखा.`,`धड्यातील ${t.title} शी संबंधित महत्त्वाचे मुद्दे समजून घ्या.`,`स्वतःच्या शब्दांत ${t.title} स्पष्ट करण्याचा सराव करा.`],example:`${t.title} याचा अर्थ आणि तीन महत्त्वाचे मुद्दे स्वतःच्या शब्दांत लिहा.`,remember:'संकल्पना समजून घ्या, आठवणीने मुद्दे लिहा आणि उत्तरलेखनाचा सराव करा.'}));
+ }
+ if(subjectId==='hindi'){
+  return topics.map(t=>({title:t.title,concept:`${t.title} का अर्थ, भाव और पाठ से उसका संबंध समझिए।`,keyPoints:[`${t.title} के मुख्य भाव या आशय को पहचानिए.`,`पाठ में ${t.title} से जुड़े महत्वपूर्ण बिंदुओं को समझिए.`,`अपने शब्दों में ${t.title} को स्पष्ट करने का अभ्यास कीजिए.`],example:`${t.title} का अर्थ और तीन महत्वपूर्ण बिंदु अपने शब्दों में लिखिए.`,remember:'संकल्पना समझिए, मुख्य बिंदुओं की पुनरावृत्ति कीजिए और उत्तर लेखन का अभ्यास कीजिए.'}));
+ }
  return topics.map(t=>({title:t.title,concept:`${t.title} is a core study area of this chapter.`,keyPoints:[`Understand the meaning of ${t.title}.`,`Identify the facts, features or skill connected with ${t.title}.`,`Practise explaining ${t.title} in your own words.`],example:`Revise ${t.title} by explaining its meaning and three key points.`,remember:'Revise the concept, practise retrieval and write answers in your own words.'}));
 }
 
-export function getExpandedConcepts(subjectId:string,chapterId:string,chapterTitle:string,topics:Topic[]):TopicConcept[]{return getChapterContent(subjectId,chapterId,topics);}
+export function getExpandedConcepts(subjectId:string,chapterId:string,chapterTitle:string,topics:Topic[]):TopicConcept[]{return getChapterContent(subjectId,chapterId,chapterTitle,topics);}
 
 export function getExpandedMaterial(subjectId:string,chapterId:string,chapterTitle:string,topics:Topic[]):MaterialSection[]{
- const c=getChapterContent(subjectId,chapterId,topics);
+ const c=getChapterContent(subjectId,chapterId,chapterTitle,topics);
  if(subjectId==='marathi'){
   return [{heading:'महत्त्वाचे मुद्दे',body:c.flatMap(x=>x.keyPoints)},{heading:'व्याख्या व संकल्पना',body:c.map(x=>`${x.title} : ${x.concept}`)},{heading:'परीक्षा तयारी',body:c.map(x=>x.remember||'संकल्पना समजून घ्या, उजळणी करा आणि स्वतःच्या शब्दांत उत्तर लिहा.')}];
  }
  if(subjectId==='hindi'){
-  return [{heading:'महत्वपूर्ण बिंदु',body:c.flatMap(x=>x.keyPoints)},{heading:'परिभाषाएँ एवं संकल्पनाएँ',body:c.map(x=>`${x.title} : ${x.concept}`)},{heading:'परीक्षा तैयारी',body:c.map(x=>x.remember||'संकल्पना समझें, पुनरावृत्ति करें और अपने शब्दों में उत्तर लिखें।')}];
+  return [{heading:'महत्वपूर्ण बिंदु',body:c.flatMap(x=>x.keyPoints)},{heading:'परिभाषाएँ एवं संकल्पनाएँ',body:c.map(x=>`${x.title} : ${x.concept}`)},{heading:'परीक्षा तैयारी',body:c.map(x=>x.remember||'संकल्पना समझें, पुनरावृत्ति करें और अपने शब्दों में उत्तर लिखें.')}];
  }
  return [{heading:'Key Points',body:c.flatMap(x=>x.keyPoints)},{heading:'Definitions',body:c.map(x=>`${x.title}: ${x.concept}`)},{heading:'Exam Strategy',body:c.map(x=>x.remember||'Revise the concept and write answers in your own words.')}];
 }
@@ -61,5 +67,5 @@ function makeQuestions(subjectId:string,chapterId:string,chapterTitle:string,c:T
  ];
 }
 
-export function getExpandedQuestions(subjectId:string,chapterId:string,chapterTitle:string,topics:Topic[]):Question[]{return getChapterContent(subjectId,chapterId,topics).flatMap(c=>makeQuestions(subjectId,chapterId,chapterTitle,c));}
+export function getExpandedQuestions(subjectId:string,chapterId:string,chapterTitle:string,topics:Topic[]):Question[]{return getChapterContent(subjectId,chapterId,chapterTitle,topics).flatMap(c=>makeQuestions(subjectId,chapterId,chapterTitle,c));}
 export function getAllExpandedQuestions():Question[]{return subjects.filter(s=>['history','political','geography','english','marathi','hindi'].includes(s.id)).flatMap(s=>s.chapters.flatMap(c=>getExpandedQuestions(s.id,c.id,c.title,getTopics(s.id,c.id,c.title))));}
